@@ -2,7 +2,7 @@
 var express = require("express"); // requre the express framework
 var app = express();
 var employeesData = require("./employees.json");
-
+app.use(express.json());
 // Endpoint to Get a list of users
 app.get("/api/employees", function (req, res) {
   if (parseInt(req.query.page) == 1) {
@@ -33,6 +33,28 @@ app.get('/api/employees/:name', (req, res) => {
   if (!employee) {
     return res.status(404).send('Employee not found');
   }
+
+  res.send(employee);
+});
+
+app.post('/api/employees', (req, res) => {
+  const employee = req.body;
+
+  // Check that the employee object has the same keys as the other employees
+  const keys = Object.keys(employeesData[0]);
+  if (!keys.every(key => Object.keys(employee).includes(key))) {
+    return res.status(400).send('Invalid employee format');
+  }
+
+  // Check that the values of the employee object are of the same type as the other employees
+  const validTypes = employeesData.every(emp => {
+    return Object.keys(emp).every(key => typeof employee[key] === typeof emp[key]);
+  });
+  if (!validTypes) {
+    return res.status(400).send('Invalid employee format');
+  }
+
+  employeesData.push(employee);
 
   res.send(employee);
 });
