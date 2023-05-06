@@ -1,3 +1,4 @@
+const request = require('supertest');
 const tools = require("../middlewares/middlewares.js");
 //REST API demo in Node.js
 var express = require("express"); // requre the express framework
@@ -24,7 +25,7 @@ app.get("/api/employees", function (req, res) {
 });
 
 app.get("/api/employees/oldest", function (req, res) {
-  res.end(JSON.stringify(tools.oldestEmploye(employeesData)));
+    res.status(200).json(tools.oldestEmploye(employeesData));
 });
 
 app.get("/api/employees/:name", (req, res) => {
@@ -37,6 +38,7 @@ app.get("/api/employees/:name", (req, res) => {
 
   res.send(employee);
 });
+
 
 app.post("/api/employees", (req, res) => {
   const employee = req.body;
