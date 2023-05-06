@@ -26,6 +26,17 @@ app.get("/api/employees/oldest", function (req, res) {
   res.end(JSON.stringify(oldestEmploye));
 });
 
+app.get('/api/employees/:name', (req, res) => {
+  const name = req.params.name;
+  const employee = employeesData.find(emp => emp.name === name);
+
+  if (!employee) {
+    return res.status(404).send('Employee not found');
+  }
+
+  res.send(employee);
+});
+
 // Create a server to listen at port 8000
 var server = app.listen(8000, function () {
   var host = server.address().address;
