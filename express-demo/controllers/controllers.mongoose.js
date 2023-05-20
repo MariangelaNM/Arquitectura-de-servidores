@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 // connect to in-memory database
-mongoose.connect("mongodb://localhost/mydatabase", {
+mongoose.connect("mongodb://0.0.0.0:27017/People", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -38,9 +38,9 @@ app.get("/api/posts", async (req, res) => {
 });
 
 // get a single post by ID
-app.get("/api/posts/:id", async (req, res) => {
+app.get("/api/posts/:_id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params._id);
     if (post) {
       res.status(200).json(post);
     } else {
@@ -52,9 +52,9 @@ app.get("/api/posts/:id", async (req, res) => {
 });
 
 // update a post by ID
-app.patch("/api/posts/:id", async (req, res) => {
+app.patch("/api/posts/:_id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params._id);
     if (post) {
       if (req.body.title) {
         post.title = req.body.title;
@@ -76,12 +76,14 @@ app.patch("/api/posts/:id", async (req, res) => {
 });
 
 // delete a post by ID
-app.delete("/api/posts/:id", async (req, res) => {
+app.delete("/api/posts/:_id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+
+    console.log(await Post.findById(req.params._id));
+    const post = await Post.findById(req.params._id);
     if (post) {
-      await post.remove();
-      res.sendStatus(204);
+      await Post.deleteMany({ _id: req.params._id });
+      res.sendStatus(204).json({ message: "Well" });;
     } else {
       res.status(404).json({ message: "Post not found" });
     }
