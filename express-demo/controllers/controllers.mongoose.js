@@ -7,58 +7,14 @@ const jwt = require('jsonwebtoken');
 const tools = require("../middlewares/auth.js");
 const router = express();
 router.use(express.json())
+const uuid = require('uuid');
 // connect to in-memory database
 mongoose.connect("mongodb://0.0.0.0:27017/People", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-
-// Ruta POST /api/login
-router.post('/api/login', async (req, res) => {
-  try {
-    const password = JSON.stringify({ 'password': req.body.password });
-    const email = JSON.stringify({ 'email': req.body.email });
-
-    // Validar los datos de entrada
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Debes proporcionar email y contraseña' });
-    }
-    const posts = await User.find();
-    // Buscar al usuario por su email
-    const user = posts.find(user => user.email === req.body.email);
-
-    // Verificar si el usuario existe
-    if (!user) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
-    }
-
-    // Verificar la contraseña
-    await bcrypt.compare(req.body.password, user.password, (err, result) => {
-      if (err) {
-        return res.status(401).json({ error: 'Credenciales inválidas' });
-      }
-
-      if (result) {
-        console.log('La contraseña coincide');
-        return true;
-      } else {
-        return res.status(401).json({ error: 'Credenciales inválidas' });
-      }
-    });
-
-    // Generar el token JWT de sesión
-    const token = jwt.sign({ userId: user._id }, 'secreto', { expiresIn: '1h' });
-
-    // Devolver el token JWT en la respuesta
-    return res.json({ token });
-  } catch (error) {
-    console.error('Error al realizar el inicio de sesión:', error);
-    return res.status(500).json({ error: 'Error en el servidor' });
-  }
-});
-
-// create a new post
+//create post
 router.post("/api/posts", tools.authenticate, async (req, res) => {
   try {
     const post = new Post({
@@ -74,7 +30,7 @@ router.post("/api/posts", tools.authenticate, async (req, res) => {
   }
 });
 
-// get all posts
+
 router.get("/api/posts", tools.authenticate, async (req, res) => {
   try {
     const posts = await Post.find();
@@ -142,26 +98,101 @@ router.delete("/api/posts/:_id", tools.authenticate, async (req, res) => {
   }
 });
 
+
+
+// Rut POST /api/login
+router.post('/api/login', async (req, res) => {
+  try {
+    const password = JSON.stringify({ 'password': req.body.password });
+    const email = JSON.stringify({ 'email': req.body.email });
+
+
+    if (!email || !password) {
+      return res.status(400).json({ error: 'I need a email and password' });
+    }
+    const posts = await User.find();
+
+    const user = posts.find(user => user.email === req.body.email);
+
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+
+    await bcrypt.compare(req.body.password, user.password, (err, result) => {
+      if (err) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+      try {
+        if (result) {
+          console.log('password matches');
+          if (!user.active) {
+            return res.status(401).json({ error: 'Account Inactive' });
+          }
+          return true;
+        } else {
+          return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+      } catch { }
+    });
+    if (user.active === false) {
+      return res.status(401).json({ error: 'Account Inactive' });
+    }
+
+    const token = jwt.sign({ userId: user._id }, 'secreto', { expiresIn: '1h' });
+
+
+    return res.json({ token });
+  } catch (error) {
+    return res.status(500).json({ error: 'Service error' });
+  }
+});
+
+//Create the account
 router.post("/api/users", async (req, res) => {
   try {
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
+    const activationToken = uuid.v4();
     const user = new User({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
       bio: req.body.bio,
+      active: false,
+      activationToken: activationToken
     });
 
     await user.save();
-
-    res.status(201).json(user);
+    //return the link to activate de account
+    res.status(201).json("http://localhost:3000/api/users/activate/" + activationToken);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
+
+//this reques activate de account
+router.get('/api/users/activate/:activationToken', async (req, res) => {
+  try {
+    const activationToken = req.params.activationToken;
+    // search user
+    const user = await User.findOne({ activationToken });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Invalid Token' });
+    }
+    user.active = true;
+    user.activationToken = undefined;
+    await user.save();
+    res.json({ message: 'Active Account' });
+  } catch (error) {
+    console.error('Error activation:', error);
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
 // get all users
 router.get("/api/user", async (req, res) => {
   try {

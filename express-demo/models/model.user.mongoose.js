@@ -31,7 +31,10 @@ const userSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
-  }
+  },  
+  activationToken: {
+    type: String
+  },
 });
 
 const User = mongoose.model('User', userSchema);
