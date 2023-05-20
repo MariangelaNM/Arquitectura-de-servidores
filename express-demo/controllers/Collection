@@ -9,7 +9,13 @@
 			"name": "Create Post",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTUzMTEsImV4cCI6MTY4NDYxODkxMX0.NwfYRiLr8veNEgpHU_uPUqPyocf25decAoKfEtpp84o",
+						"type": "default"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n      \"title\": \"EL POST\",\r\n      \"text\": \"EL POST 2\",\r\n      \"author\": \"YO\"\r\n    }",
@@ -38,7 +44,13 @@
 			"name": "Update Post Copy",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTUzMTEsImV4cCI6MTY4NDYxODkxMX0.NwfYRiLr8veNEgpHU_uPUqPyocf25decAoKfEtpp84o",
+						"type": "default"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n   \"title\": \"EL POST 2\",\r\n      \"text\": \"EL POST 2\",\r\n      \"author\": \"YO 2\"\r\n    }",
@@ -70,7 +82,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/posts/6468f8b5bf0a65452e996e3f",
+					"raw": "http://localhost:3000/api/posts/6468f8b5bf0a65452e996e3f?authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTUzMTEsImV4cCI6MTY4NDYxODkxMX0.NwfYRiLr8veNEgpHU_uPUqPyocf25decAoKfEtpp84o",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -80,6 +92,12 @@
 						"api",
 						"posts",
 						"6468f8b5bf0a65452e996e3f"
+					],
+					"query": [
+						{
+							"key": "authorization",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTUzMTEsImV4cCI6MTY4NDYxODkxMX0.NwfYRiLr8veNEgpHU_uPUqPyocf25decAoKfEtpp84o"
+						}
 					]
 				}
 			},
@@ -91,7 +109,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/posts/6468f8b5bf0a65452e996e3f",
+					"raw": "http://localhost:3000/api/posts/6468f8b5bf0a65452e996e3f?authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTUzMTEsImV4cCI6MTY4NDYxODkxMX0.NwfYRiLr8veNEgpHU_uPUqPyocf25decAoKfEtpp84o",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -101,6 +119,12 @@
 						"api",
 						"posts",
 						"6468f8b5bf0a65452e996e3f"
+					],
+					"query": [
+						{
+							"key": "authorization",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTUzMTEsImV4cCI6MTY4NDYxODkxMX0.NwfYRiLr8veNEgpHU_uPUqPyocf25decAoKfEtpp84o"
+						}
 					]
 				}
 			},
@@ -109,8 +133,54 @@
 		{
 			"name": "Ver POST",
 			"request": {
+				"auth": {
+					"type": "jwt",
+					"jwt": [
+						{
+							"key": "header",
+							"value": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTQ2OTUsImV4cCI6MTY4NDYxODI5NX0.ij4Ceng2YVOZ3Oy-7g4vk4yxuViAhSv6u7UXAN2Eu50\"\r\n}",
+							"type": "string"
+						},
+						{
+							"key": "payload",
+							"value": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTQ2OTUsImV4cCI6MTY4NDYxODI5NX0.ij4Ceng2YVOZ3Oy-7g4vk4yxuViAhSv6u7UXAN2Eu50\"\r\n}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "queryParam",
+							"type": "string"
+						},
+						{
+							"key": "isSecretBase64Encoded",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "algorithm",
+							"value": "HS256",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "queryParamKey",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDY5MmRhNGM2ZjY0N2IxNWIyN2FiMTYiLCJpYXQiOjE2ODQ2MTUzMTEsImV4cCI6MTY4NDYxODkxMX0.NwfYRiLr8veNEgpHU_uPUqPyocf25decAoKfEtpp84o",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:3000/api/posts",
 					"protocol": "http",
@@ -121,6 +191,84 @@
 					"path": [
 						"api",
 						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Loggin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\": \"mar@gmail.com\",\r\n      \"password\": \"123\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Loggin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"test\",\r\n   \"email\": \"mar@gmail.com\",\r\n      \"password\": \"123\",\r\n      \"bio\":\"qwwq\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user"
 					]
 				}
 			},
