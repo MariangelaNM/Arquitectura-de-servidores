@@ -5,6 +5,7 @@ module.exports = {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
     // If the token is not found, return an HTTP 401 error
+    console.log("-",token)
     if (!token) return res.status(401).json({ message: "Invalid Token" });
     // Check the token and get the payload
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {

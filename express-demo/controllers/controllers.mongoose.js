@@ -4,9 +4,9 @@ const Post = require("../models/model.mongoose");
 const User = require("../models/model.user.mongoose");
 const tools = require("../middlewares/auth.js");
 const bcrypt = require("bcrypt");
-
+const jwt = require('jsonwebtoken');
 const router = express();
-
+router.use(express.json())
 // connect to in-memory database
 mongoose.connect("mongodb://0.0.0.0:27017/People", {
   useNewUrlParser: true,
@@ -41,7 +41,7 @@ router.get("/api/posts", tools.authenticate, async (req, res) => {
 
 // get a single post by ID
 
-app.get("/api/posts/:_id", async (req, res) => {
+router.get("/api/posts/:_id", async (req, res) => {
 
   try {
     const post = await Post.findById(req.params._id);
@@ -56,7 +56,7 @@ app.get("/api/posts/:_id", async (req, res) => {
 });
 
 // update a post by ID
-app.patch("/api/posts/:_id", async (req, res) => {
+router.patch("/api/posts/:_id", async (req, res) => {
 
   try {
     const post = await Post.findById(req.params._id);
@@ -81,7 +81,7 @@ app.patch("/api/posts/:_id", async (req, res) => {
 });
 
 // delete a post by ID
-app.delete("/api/posts/:_id", async (req, res) => {
+router.delete("/api/posts/:_id", async (req, res) => {
 
   try {
 
@@ -119,16 +119,17 @@ router.post("/api/users", async (req, res) => {
   }
 });
 router.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
 
+  const email=req.body.email;
+  
+  const password=req.body.password;
   try {
-    const user = await User.findOne({ email });
-
+    const user = JSON.stringify({'user':email});
     if (!user) {
       return res.status(401).json({ message: "Credentials invalidad" });
     }
 
-    const isValidPassword = await user.checkPassword(password);
+    const isValidPassword = JSON.stringify({'password':password});
 
     if (!isValidPassword) {
       return res.status(401).json({ message: "Credentials invalidad" });
