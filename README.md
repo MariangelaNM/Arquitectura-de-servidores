@@ -1,7 +1,7 @@
 # Arquitectura-de-servidores
 En este repo se van a desarrollar las diferentes etapas del proyecto del curso de Arquitectura de servidores
 
---------------------Entrega #2------------------------------------
+--------------------Entrega #3------------------------------------
 
 Para utilizar esta api se debe seguir los siguientes pasos:
 
