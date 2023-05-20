@@ -1,46 +1,26 @@
-Para esta actividad construiremos un API HTTP en node utilizando la librería express.js.
-El API debe incluir las rutas necesarias para generar una respuesta en formato JSON a los siguientes puntos:
+Este repo contiene la implementación de un API CRUD con autenticación, 
+esto utilizando mongoose,jsonwebtoken y Node express.
 
-1. GET http://localhost:8000/api/employees
+--------------------Entrega #1------------------------------------
 
-Devolverá un array JSON con el contenido del fichero "employees.json" que se adjunta al enunciado.
-Es posible añadirlo al código fuente con require('/path/to/employees.json') y guardarlo en una constante.
+Para utilizar esta api se debe seguir los siguientes pasos:
 
-2. GET http://localhost:8000/api/employees?page=1
+*npm install.
 
-Devolverá los primeros 2 empleados. Del elemento 0 al elemento 1 del listado
+*ir a la arpeta "express-demo\config"
 
-2. GET http://localhost:8000/api/employees?page=2
+*correr "Node routes.config.js"
 
-Devolverá del elemento 2 al elemento 3 del listado
+*en esta misma carpeta se encuentra la collection de postman para usar los diferentes request
 
-3. GET http://localhost:8000/api/employees?page=N
+--------------------Entrega #2,3,4------------------------------------
 
-Devolverá del elemento (2 * (N - 1)) al (2 * (N - 1)) + 1.
+Para utilizar esta api se debe seguir los siguientes pasos:
 
-4. GET http://localhost:8000/api/employees/oldest
+*npm install.
 
-Devolverá el objeto individual correspondiente al empleado con más edad. En caso de existir más
-de uno, se devolverá la primera ocurrencia
+*Ir a la carpeta "express-demo\controllers"
 
-5. GET http://localhost:8000/api/employees?user=true
+*Correr "Node controllers.mongoose.js"
 
-Devolverá listado de employees con privileges == "user"
-
-6. POST http://localhost:8000/api/employees
-
-Añadirá un elemento al listado en memoria del programa (se perderá cada vez que se reinicie).
-Se validará que el body de la petición cumpla el mismo formato JSON que el resto de empleados.
-Si no cumpliera dicha validación, se devolverá status 400 con el siguiente contenido:
-
-{"code": "bad_request"}
-
-7. GET http://localhost:8000/api/employees?badges=black
-
-Devolverá listado de employees que incluya "black" en el atributo "badges"
-
-8. GET http://localhost:8000/api/employees/NAME
-Devolverá objeto employee cuyo nombre sea igual a NAME. NAME puede tomar diferentes valores:
-Sue, Bob, etc.
-Si no se encuentra el usuario con name == NAME se devolvera status 404 con el siguiente contenido:
-{"code": "not_found"}
+*En esta misma carpeta se encuentra la collection de postman para usar los diferentes request
